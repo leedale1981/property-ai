@@ -1,0 +1,22 @@
+{
+    "manifest_version": 3,
+    "name": "Invest-AI",
+    "description": "Investment property extension that uses the latest AI technologies to analyse the pros and cons of investment properties.",
+    "version": "1.0",
+    "action": {
+      "default_popup": "analyseinvestment-popup.html",
+      "default_icon": "analyseinvestment.png"
+    },
+    "content_scripts": [
+        {
+          "matches": ["https://www.rightmove.co.uk/properties/*"],
+          "css": ["analyserightmove.css"],
+          "js": ["analyserightmove-content.js"],
+          "all_frames": false,
+          "match_origin_as_fallback": false,
+          "match_about_blank": false,
+          "run_at": "document_idle",
+          "world": "ISOLATED"
+        }
+      ]
+  }
