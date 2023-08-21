@@ -7,11 +7,13 @@ import (
 
 	openai "github.com/sashabaranov/go-openai"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.GET("/report", getReport)
 
 	router.Run("localhost:8080")
@@ -23,7 +25,7 @@ func getReport(ginContext *gin.Context) {
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
-			Model: openai.GPT3Dot5Turbo,
+			Model: openai.GPT4,
 			Messages: []openai.ChatCompletionMessage{
 				{
 					Role:    openai.ChatMessageRoleUser,
