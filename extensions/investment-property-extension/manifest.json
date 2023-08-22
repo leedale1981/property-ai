@@ -4,9 +4,24 @@
     "description": "Investment property extension that uses the latest AI technologies to analyse the pros and cons of investment properties.",
     "version": "1.0",
     "action": {
-      "default_popup": "analyseinvestment-popup.html"
+      "default_popup": "analyseinvestment-popup.html",
+      "default_icon": {
+        "16": "logo.png", 
+        "24": "logo.png", 
+        "32": "logo.png" 
+      }
+    },
+    "icons": {
+      "16": "logo.png",
+      "32": "logo.png",
+      "48": "logo.png",
+      "128": "logo.png"
     },
     "permissions": ["storage", "tabs"],
+    "host_permissions": [
+      "http://localhost:8080/",
+      "https://www.rightmove.co.uk/"
+    ],
     "content_scripts": [
         {
           "matches": ["https://www.rightmove.co.uk/properties/*"],
