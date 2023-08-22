@@ -10,7 +10,7 @@
                         inputext += node.textContent;
                     });
             
-                let endpoint = request.gpt4 ? "report" : "report/gpt4";
+                let endpoint = request.gpt4 ? "report/gpt4" : "report";
                 fetch(`http://localhost:8080/${endpoint}?input=${encodeURIComponent(inputext)}`)
                 .then(responseOutput => responseOutput.json())
                 .then(json => sendResponse({output: json}))
