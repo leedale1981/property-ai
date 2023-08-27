@@ -29,30 +29,38 @@
 
   const tabs = await chrome.tabs.query({active: true, currentWindow: true});
 
-  function getReport(reportType, element) {
-    chrome.tabs.sendMessage(tabs[0].id, reportType, (response) => 
+  function getReport(reportType, element, pointsElement) {
+    if (tabs[0].url.includes("https://www.rightmove.co.uk/properties"))
     {
-      var points = charsIncludingColonWords(response.output);
+      chrome.tabs.sendMessage(tabs[0].id, reportType, (response) => 
+      {
+        var points = charsIncludingColonWords(response.output);
 
-      for (index = 0; index < points.length; index++) {
-        let p = document.createElement("p");
-        p.innerHTML = points[index]
-          .replace(/\bPros:/g, '<h2><u>Pros:</u></h2>')
-          .replace(/\bCons:/g, '<h2><u>Cons:</u></h2>')
-          .replace(/[\n\r]/g, '');
-        document.getElementById("points").append(p);
-      }
+        for (index = 0; index < points.length; index++) {
+          let p = document.createElement("p");
+          p.innerHTML = points[index]
+            .replace(/\bPros:/g, '<h2><u>Pros:</u></h2>')
+            .replace(/\bCons:/g, '<h2><u>Cons:</u></h2>')
+            .replace(/[\n\r]/g, '');
+            if (pointsElement) {
+              pointsElement.append(p);
+            }
+        }
 
-      document.getElementById("analysis").style.display = 'block';
+        document.getElementById("analysis").style.display = 'block';
+        document.getElementById("loading").style.display = 'none';
+        element.textContent = response.output;
+      });   
+    }
+    else {
+      document.getElementById("no-context").style.display = 'block';
       document.getElementById("loading").style.display = 'none';
-      element.textContent = response.output;
-
-    });   
+    }
   }
 
-  getReport({getinvestment: true}, document.getElementById("investmentoutput"));
-  getReport({getrental: true}, document.getElementById("rentaloutput"));
-  getReport({getbuyer: true}, document.getElementById("buyeroutput"));
+  getReport({getinvestment: true}, document.getElementById("investmentoutput"), document.getElementById("investmentpoints"));
+  getReport({getrental: true}, document.getElementById("rentaloutput"), document.getElementById("rentalpoints"));
+  getReport({getbuyer: true}, document.getElementById("buyeroutput"), document.getElementById("buyerpoints"));
   getReport({getestateagents: true}, document.getElementById("estateagents"));
   getReport({getarea: true}, document.getElementById("areaoutput"));
   getReport({getcrime: true}, document.getElementById("crimeoutput"));
@@ -60,9 +68,9 @@
     const checkbox = document.getElementById('flexSwitchCheckDefault');
 
     checkbox.addEventListener('change', (event) => {
-      getReport({getinvestment: true, gpt4: true}, document.getElementById("investmentoutput"));
-      getReport({getrental: true, gpt4: true}, document.getElementById("rentaloutput"));
-      getReport({getbuyer: true, gpt4: true}, document.getElementById("buyeroutput"));
+      getReport({getinvestment: true, gpt4: true}, document.getElementById("investmentoutput"), document.getElementById("investmentpoints"));
+      getReport({getrental: true, gpt4: true}, document.getElementById("rentaloutput"), document.getElementById("rentalpoints"));
+      getReport({getbuyer: true, gpt4: true}, document.getElementById("buyeroutput"), document.getElementById("buyerpoints"));
       getReport({getestateagents: true, gpt4: true}, document.getElementById("estateagents"));
       getReport({getarea: true, gpt4: true}, document.getElementById("areaoutput"));
       getReport({getcrime: true, gpt4: true}, document.getElementById("crimeoutput"));
