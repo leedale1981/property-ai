@@ -24,7 +24,7 @@ func main() {
 
 func getReportGpt4(ginContext *gin.Context) {
 	input := ginContext.Request.URL.Query()["input"][0]
-	client := openai.NewClient("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")
+	client := openai.NewClient("")
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
@@ -48,7 +48,7 @@ func getReportGpt4(ginContext *gin.Context) {
 
 func getReport(ginContext *gin.Context) {
 	input := ginContext.Request.URL.Query()["input"][0]
-	client := openai.NewClient("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")
+	client := openai.NewClient("")
 	resp, err := client.CreateChatCompletion(
 		context.Background(),
 		openai.ChatCompletionRequest{
